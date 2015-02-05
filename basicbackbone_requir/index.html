@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+<script data-main="main" src = "external/require.js"></script>
+
+<style>
+.complete{
+	color:red;
+}
+</style>
+<script type = "text/template" id = "template-main">
+	<h3>  
+	<input class = "<%= status %>" type=checkbox <% if(status === "complete") print("checked") %>/>
+	<%= description %>
+	</h3>
+</script>
+
+</head>
+<body>
+</body>
+</html>
