@@ -10,9 +10,14 @@ var TodoItem = Backbone.Model.extend({
 	},
 	urlRoot:'app'
 });
-//initialize data
-var data = {id:12, status:"completed", description:"First To do item"};
-var todoItem = new TodoItem(data);
+
+
+
+
+
+var TodoList = Backbone.Collection.extend({
+	url:'app',
+});
 
 
 var viewHash = {
@@ -26,14 +31,45 @@ var viewHash = {
 	render: function(){
 		var attributes = this.model.toJSON();
 		var html = this.template(attributes);
-		console.log($("#first").text());
+		
 		$(this.el).html(html);
-		$("body").append(this.el);
+		//$("body").append(this.el);
+		return this;
 	}
 }
 var TodoView = Backbone.View.extend(viewHash);
-var todoView  = new TodoView({model:todoItem});
-todoView.render();
+
+/*var todoView  = new TodoView({model:todoItem});
+todoView.render();*/
+
+//initialize data
+var collectionData = [
+{id:12, status:"completed", description:"First To do item"},
+{id:13, status:"incomplete", description:"Second To do item"},
+{id:14, status:"incomplete", description:"Third To do item"},			
+{id:15, status:"incomplete", description:"Third To do item"}
+];
+
+var todoList = new TodoList({model:TodoItem});
+todoList.reset(collectionData);
+
+
+
+var TodoListView = Backbone.View.extend({
+	render:function(){
+		console.log(this.collection.length);
+		this.collection.forEach(this.addOne,this);
+		$("body").html(this.el);
+	},
+	addOne:function(todoItem){
+		var todoView = new TodoView({model:todoItem});
+    this.$el.append(todoView.render().el);
+    console.log(this.el);
+	}
+
+})
+var todoListView = new TodoListView({collection:todoList});
+todoListView.render();
 
 
 
